@@ -16,12 +16,14 @@ class GarageAutoView extends StatelessWidget {
     required this.mileage,
     required this.onDelete,
     required this.onUpdate,
+    required this.onMileageDelete,
   });
 
   final Auto? auto;
   final List<AutoMileage>? mileage;
   final VoidCallback? onDelete;
   final VoidCallback? onUpdate;
+  final Function? onMileageDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +97,13 @@ class GarageAutoView extends StatelessWidget {
                         itemCount: mileage.length,
                         itemBuilder: (_, index) {
                           final m = mileage[index];
-                          return GarageAutoMileageListTile(
-                            mileage: m.value,
-                            createdAt: m.createdAt,
+                          return Dismissible(
+                              key: ObjectKey(m),
+                              onDismissed: (direction) => onMileageDelete!(m.id),
+                              child: GarageAutoMileageListTile(
+                                mileage: m.value,
+                                createdAt: m.createdAt,
+                              )
                           );
                         },
                       )

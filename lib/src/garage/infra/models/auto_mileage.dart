@@ -10,8 +10,8 @@ class AutoMileage extends Equatable implements Insertable<AutoMileage> {
     required this.createdAt,
   });
 
-  factory AutoMileage.empty() =>  AutoMileage(
-      id: 0, autoId: 0, value: 0, createdAt: DateTime.now());
+  factory AutoMileage.empty() => AutoMileage(
+      id: 0, autoId: 0, value: 0, createdAt: DateTime(0,0,0,0,0));
 
   final int id;
   final int autoId;
@@ -26,7 +26,7 @@ class AutoMileage extends Equatable implements Insertable<AutoMileage> {
       id: id,
       autoId: autoId ?? this.autoId,
       value: value ?? this.value,
-      createdAt: createdAt ,
+      createdAt: createdAt,
     );
   }
 
@@ -38,7 +38,6 @@ class AutoMileage extends Equatable implements Insertable<AutoMileage> {
     return AutoMileageTableCompanion.insert(
       autoId: autoId,
       value: value,
-      createdAt: createdAt,
     ).toColumns(nullToAbsent);
   }
 }

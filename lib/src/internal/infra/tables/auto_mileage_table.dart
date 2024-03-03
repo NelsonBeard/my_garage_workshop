@@ -19,5 +19,5 @@ class AutoMileageTable extends Table {
 
   IntColumn get value => integer()();
 
-  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }

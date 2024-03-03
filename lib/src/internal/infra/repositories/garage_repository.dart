@@ -58,6 +58,11 @@ class GarageRepository extends DatabaseAccessor<Database>
   }
 
   Future<void> deleteMileagesByAutoId(int id) async {
-    await (delete(autoMileageTable)..where((tbl) => tbl.autoId.equals(id))).go();
+    await (delete(autoMileageTable)..where((tbl) => tbl.autoId.equals(id)))
+        .go();
+  }
+
+  Future<void> deleteMileageById(int id) async {
+    await (delete(autoMileageTable)..where((tbl) => tbl.id.equals(id))).go();
   }
 }

@@ -55,7 +55,6 @@ class GarageAutoCubit extends Cubit<GarageAutoState> {
     }
   }
 
-  // TODO(DanilAbdrafikov): Update body number, chassis number, vin fields (Done)
   void updated({
     required String? bodyNumber,
     required String? chassisNumber,
@@ -80,6 +79,21 @@ class GarageAutoCubit extends Cubit<GarageAutoState> {
       ));
       if (isClosed) return;
       return started(state.auto.id);
+    } catch (e) {
+      if (isClosed) return;
+      emit(GarageAutoNonFatalFailure(e));
+      emit(state);
+    }
+  }
+
+  void mileageDeleted({required int id}) async {
+    final state = this.state;
+    if (state is! GarageAutoInitial) return;
+
+    try {
+      await _repository.deleteMileageById(id);
+      if (isClosed) return;
+      emit(GarageAutoInitial(state.auto));
     } catch (e) {
       if (isClosed) return;
       emit(GarageAutoNonFatalFailure(e));

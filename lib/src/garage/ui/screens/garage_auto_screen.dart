@@ -42,7 +42,6 @@ class GarageAutoScreen extends StatelessWidget {
     if (state is GarageAutoInitial) {
       return GarageAutoView(
         auto: state.auto,
-        // TODO(DanilAbdrafikov): Implement mileage history (Done)
         mileage: state.mileageHistory,
         onDelete: context.garageAuto.deleted,
         onUpdate: () async {
@@ -64,6 +63,7 @@ class GarageAutoScreen extends StatelessWidget {
             mileage: auto.mileage,
           );
         },
+        onMileageDelete: (id) => context.garageAuto.mileageDeleted(id: id),
       );
     } else if (state is GarageAutoFailure) {
       return GarageAutoErrorView(
@@ -76,6 +76,7 @@ class GarageAutoScreen extends StatelessWidget {
       mileage: null,
       onDelete: null,
       onUpdate: null,
+      onMileageDelete: null,
     );
   }
 }

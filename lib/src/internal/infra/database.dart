@@ -25,7 +25,7 @@ class Database extends _$Database {
   @override
   int get schemaVersion => schema;
 
-  static int get schema => 3;
+  static int get schema => 4;
 
   @override
   MigrationStrategy get migration {
@@ -39,20 +39,28 @@ class Database extends _$Database {
       },
       onUpgrade: (m, before, now) async {
         for (var target = before + 1; target <= now; target++) {
-          if (target == 2) {
-            await m.createTable(v2.AutoMileage(this));
-          } else if (target == 3) {
-            // TODO(DanilAbdrafikov): Implement migration for next target(done)
-            await m.alterTable(
-                TableMigration(autoMileageTable, columnTransformer: {
-              autoMileageTable.id: const CustomExpression('id'),
-              autoMileageTable.autoId: const CustomExpression('auto_id'),
-              autoMileageTable.value: const CustomExpression('value'),
-              autoMileageTable.createdAt: const CustomExpression('created_at'),
-            }));
+          switch (target) {
+            case 2:
+              await m.createTable(v2.AutoMileage(this));
+              break;
+            case 3:
+              await m.alterTable(_tableMigration());
+              break;
+            case 4:
+              await m.alterTable(_tableMigration());
+              break;
           }
         }
       },
     );
+  }
+
+  TableMigration _tableMigration() {
+    return TableMigration(autoMileageTable, columnTransformer: {
+      autoMileageTable.id: const CustomExpression('id'),
+      autoMileageTable.autoId: const CustomExpression('auto_id'),
+      autoMileageTable.value: const CustomExpression('value'),
+      autoMileageTable.createdAt: const CustomExpression('created_at'),
+    });
   }
 }
