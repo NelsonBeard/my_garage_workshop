@@ -34,5 +34,6 @@
   "garageUpdateBodyNumberLabel": "Номер кузова",
   "garageUpdateChassisNumberLabel": "Номер шасси",
   "garageUpdateVinLabel": "VIN",
-  "garageUpdateSaveButton": "Сохранить"
+  "garageUpdateSaveButton": "Сохранить",
+  "garageUpdateMileageError": "Пробег не может быть меньше предыдущего"
 }

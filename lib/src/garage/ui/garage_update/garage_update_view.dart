@@ -49,6 +49,7 @@ class _GarageUpdateViewState extends State<GarageUpdateView> {
                 LengthLimitingTextInputFormatter(7),
               ],
               keyboardType: TextInputType.number,
+              validator: (value) => _mileageValidator(value),
               onSaved: (mileage) =>
                   _auto = _auto.copyWith(mileage: int.tryParse(mileage ?? '')),
             ),
@@ -98,8 +99,10 @@ class _GarageUpdateViewState extends State<GarageUpdateView> {
           ),
           child: FilledButton(
             onPressed: () {
-              _key.currentState?.save();
-              return context.pop(_auto);
+              if (_key.currentState!.validate()) {
+                _key.currentState?.save();
+                return context.pop(_auto);
+              }
             },
             style: FilledButton.styleFrom(
               padding: EdgeInsets.zero,
@@ -111,4 +114,14 @@ class _GarageUpdateViewState extends State<GarageUpdateView> {
       ),
     );
   }
+
+  String? _mileageValidator(String? value) {
+    final int newValue = value != null ? int.tryParse(value) ?? 0 : 0;
+    final int oldValue = widget.auto.mileage ?? 0;
+    if (newValue <= oldValue) {
+      return context.t.garageUpdateMileageError;
+    }
+    return null;
+  }
+
 }
